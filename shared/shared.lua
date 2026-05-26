@@ -90,7 +90,7 @@ function PigeonShared.TableCount(tableData)
     local count = 0
 
     for _ in pairs(tableData) do
-        count += 1
+        count = count + 1
     end
 
     return count

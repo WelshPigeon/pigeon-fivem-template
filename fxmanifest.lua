@@ -46,7 +46,6 @@ files {
     'web/index.html',
     'web/style.css',
     'web/script.js',
-
     'locales/*.json'
 }
 
