@@ -1,0 +1,194 @@
+name: Feature Request
+description: Suggest a new feature, enhancement, or improvement.
+title: "[FEATURE] "
+labels:
+  - enhancement
+
+assignees:
+  - WelshPigeon
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Pigeon Studios — Feature Request
+
+        Please provide a detailed and structured request.
+
+        Well-written feature requests are significantly more likely to be considered for implementation.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Provide a concise summary of the requested feature.
+      placeholder: Describe the feature request here.
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: Problem Statement
+      description: Explain the problem, gameplay limitation, workflow issue, or missing functionality this feature would solve.
+      placeholder: Describe the issue or limitation.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution
+      description: Describe how you would like the feature to function.
+      placeholder: Explain the proposed implementation or behaviour.
+    validations:
+      required: true
+
+  - type: textarea
+    id: example-workflow
+    attributes:
+      label: Example Workflow
+      description: Explain how this feature would realistically be used on a live FiveM server.
+      placeholder: |
+        Example:
+        1. Player interacts with...
+        2. Resource validates...
+        3. Server logs...
+        4. Action completes...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Feature Priority
+      description: How important is this feature to your server workflow?
+      options:
+        - Low
+        - Medium
+        - High
+        - Critical
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Feature Categories
+
+  - type: checkboxes
+    id: feature-category
+    attributes:
+      label: Select all applicable categories
+      options:
+        - label: Gameplay Feature
+        - label: Security Improvement
+        - label: Performance Improvement
+        - label: Database / Persistence Feature
+        - label: Logging / Monitoring
+        - label: Administrative Feature
+        - label: Configuration Improvement
+        - label: Framework Compatibility
+        - label: UI / UX Improvement
+        - label: ox_inventory Enhancement
+        - label: ox_target Enhancement
+        - label: Developer Tooling
+        - label: Infrastructure / CI
+        - label: API / Export Improvement
+        - label: Networking / Syncing
+        - label: Optimisation
+        - label: Documentation Improvement
+        - label: Other
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Expected Benefits
+
+  - type: checkboxes
+    id: expected-benefits
+    attributes:
+      label: Select all expected benefits
+      options:
+        - label: Improved gameplay experience
+        - label: Better server performance
+        - label: Improved persistence reliability
+        - label: Better security and validation
+        - label: Easier administration
+        - label: Improved developer workflow
+        - label: Better scalability
+        - label: Improved debugging / monitoring
+        - label: Reduced server resource usage
+        - label: Better compatibility
+        - label: Improved maintainability
+        - label: Other
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Compatibility Considerations
+
+  - type: checkboxes
+    id: compatibility
+    attributes:
+      label: Required compatibility
+      options:
+        - label: QBCore
+        - label: Qbox
+        - label: ESX
+        - label: Standalone
+        - label: ox_lib
+        - label: oxmysql
+        - label: ox_inventory
+        - label: ox_target
+        - label: qb-target
+        - label: ps-ui
+        - label: lb-phone
+        - label: lb-tablet
+        - label: OneSync
+        - label: Other Resources
+
+  - type: dropdown
+    id: breaking-change
+    attributes:
+      label: Would this introduce breaking changes?
+      options:
+        - "No"
+        - "Possibly"
+        - "Yes"
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical-considerations
+    attributes:
+      label: Technical Considerations
+      description: Describe any implementation details, limitations, exports, APIs, dependencies, or infrastructure concerns.
+      placeholder: Add any technical details here.
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Describe any alternative solutions or workarounds you have considered.
+      placeholder: Explain alternative ideas or existing workarounds.
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add screenshots, diagrams, videos, mockups, references, or additional context here.
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have searched for existing feature requests.
+          required: true
+
+        - label: I understand this request may not be implemented.
+          required: true
+
+        - label: I have provided sufficient information for consideration.
+          required: true

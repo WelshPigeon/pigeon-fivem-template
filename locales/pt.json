@@ -1,0 +1,42 @@
+{
+  "general": {
+    "resource_started": "Recurso iniciado com sucesso.",
+    "resource_stopped": "Recurso parado com sucesso.",
+    "invalid_request": "Pedido inválido.",
+    "action_cancelled": "Ação cancelada.",
+    "not_allowed": "Não tens permissão para executar esta ação.",
+    "feature_disabled": "Esta funcionalidade está atualmente desativada."
+  },
+  "notifications": {
+    "success": "Ação concluída com sucesso.",
+    "error": "Ocorreu um erro inesperado.",
+    "warning": "Aviso.",
+    "info": "Informação."
+  },
+  "validation": {
+    "invalid_player": "Origem do jogador inválida.",
+    "invalid_input": "Entrada inválida fornecida.",
+    "missing_data": "Faltam dados obrigatórios.",
+    "invalid_permissions": "Permissões insuficientes."
+  },
+  "framework": {
+    "unsupported": "Framework não suportado detetado.",
+    "missing_dependency": "Falta uma dependência obrigatória."
+  },
+  "database": {
+    "connection_failed": "Falha na ligação à base de dados.",
+    "query_failed": "Falha na consulta à base de dados.",
+    "data_saved": "Dados guardados com sucesso.",
+    "data_deleted": "Dados eliminados com sucesso."
+  },
+  "development": {
+    "debug_enabled": "Modo de depuração ativado.",
+    "verbose_logging_enabled": "Registo detalhado ativado."
+  },
+  "version_checker": {
+    "up_to_date": "O recurso está atualizado.",
+    "outdated": "Está disponível uma nova versão.",
+    "development_build": "Versão de desenvolvimento detetada.",
+    "check_failed": "Falha na verificação da versão."
+  }
+}

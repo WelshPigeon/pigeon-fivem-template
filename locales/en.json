@@ -1,0 +1,48 @@
+{
+    "general": {
+        "resource_started": "Resource started successfully.",
+        "resource_stopped": "Resource stopped successfully.",
+        "invalid_request": "Invalid request.",
+        "action_cancelled": "Action cancelled.",
+        "not_allowed": "You are not allowed to perform this action.",
+        "feature_disabled": "This feature is currently disabled."
+    },
+
+    "notifications": {
+        "success": "Action completed successfully.",
+        "error": "An unexpected error occurred.",
+        "warning": "Warning.",
+        "info": "Information."
+    },
+
+    "validation": {
+        "invalid_player": "Invalid player source.",
+        "invalid_input": "Invalid input provided.",
+        "missing_data": "Required data is missing.",
+        "invalid_permissions": "Insufficient permissions."
+    },
+
+    "framework": {
+        "unsupported": "Unsupported framework detected.",
+        "missing_dependency": "Required dependency is missing."
+    },
+
+    "database": {
+        "connection_failed": "Database connection failed.",
+        "query_failed": "Database query failed.",
+        "data_saved": "Data saved successfully.",
+        "data_deleted": "Data deleted successfully."
+    },
+
+    "development": {
+        "debug_enabled": "Debug mode enabled.",
+        "verbose_logging_enabled": "Verbose logging enabled."
+    },
+
+    "version_checker": {
+        "up_to_date": "Resource is up to date.",
+        "outdated": "A newer version is available.",
+        "development_build": "Development build detected.",
+        "check_failed": "Version check failed."
+    }
+}

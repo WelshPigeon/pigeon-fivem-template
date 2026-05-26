@@ -1,0 +1,60 @@
+name: Security Report
+description: Report security vulnerabilities or exploits privately.
+title: "[SECURITY] "
+labels:
+  - security
+
+assignees:
+  - WelshPigeon
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Security Vulnerability Report
+
+        Please DO NOT publicly disclose:
+        - Exploits
+        - Duplication methods
+        - Permission bypasses
+        - SQL vulnerabilities
+        - Remote execution vulnerabilities
+
+        Sensitive reports should also be submitted privately through:
+        security@pigeonstudios.co.uk
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Vulnerability Summary
+      description: Describe the vulnerability.
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Security Impact
+      description: Explain the potential impact.
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction Steps
+      description: Explain how the issue can be reproduced.
+    validations:
+      required: true
+
+  - type: textarea
+    id: mitigation
+    attributes:
+      label: Suggested Mitigation
+      description: Optional mitigation suggestions.
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: I understand sensitive vulnerabilities should not be publicly disclosed.
+          required: true

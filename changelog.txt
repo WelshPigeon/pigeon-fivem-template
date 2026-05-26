@@ -1,0 +1,7 @@
+[1.0.0]
+- Initial template release.
+- Enterprise-grade repository structure.
+- GitHub CI integration.
+- Issue forms and pull request workflows.
+- Modern FiveM manifest configuration.
+- Version checking foundation added.

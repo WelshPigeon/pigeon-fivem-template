@@ -1,0 +1,42 @@
+{
+  "general": {
+    "resource_started": "Recurso iniciado correctamente.",
+    "resource_stopped": "Recurso detenido correctamente.",
+    "invalid_request": "Solicitud no válida.",
+    "action_cancelled": "Acción cancelada.",
+    "not_allowed": "No tienes permiso para realizar esta acción.",
+    "feature_disabled": "Esta función está desactivada actualmente."
+  },
+  "notifications": {
+    "success": "Acción completada correctamente.",
+    "error": "Se produjo un error inesperado.",
+    "warning": "Advertencia.",
+    "info": "Información."
+  },
+  "validation": {
+    "invalid_player": "Origen de jugador no válido.",
+    "invalid_input": "Entrada no válida proporcionada.",
+    "missing_data": "Faltan datos obligatorios.",
+    "invalid_permissions": "Permisos insuficientes."
+  },
+  "framework": {
+    "unsupported": "Framework no compatible detectado.",
+    "missing_dependency": "Falta una dependencia obligatoria."
+  },
+  "database": {
+    "connection_failed": "Error de conexión con la base de datos.",
+    "query_failed": "Error al ejecutar la consulta de base de datos.",
+    "data_saved": "Datos guardados correctamente.",
+    "data_deleted": "Datos eliminados correctamente."
+  },
+  "development": {
+    "debug_enabled": "Modo de depuración activado.",
+    "verbose_logging_enabled": "Registro detallado activado."
+  },
+  "version_checker": {
+    "up_to_date": "El recurso está actualizado.",
+    "outdated": "Hay una nueva versión disponible.",
+    "development_build": "Compilación de desarrollo detectada.",
+    "check_failed": "Error al comprobar la versión."
+  }
+}

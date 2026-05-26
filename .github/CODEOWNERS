@@ -1,0 +1,33 @@
+# =========================================================
+# Pigeon Studios — CODEOWNERS
+# =========================================================
+
+# Default Owner
+* @WelshPigeon
+
+# GitHub / CI
+.github/ @WelshPigeon
+
+# Client Systems
+client/ @WelshPigeon
+
+# Server Systems
+server/ @WelshPigeon
+
+# Shared Logic
+shared/ @WelshPigeon
+
+# Configuration
+configuration/ @WelshPigeon
+
+# Web / NUI
+web/ @WelshPigeon
+
+# Locales
+locales/ @WelshPigeon
+
+# Documentation
+README.md @WelshPigeon
+CHANGELOG.md @WelshPigeon
+CONTRIBUTING.md @WelshPigeon
+SECURITY.md @WelshPigeon

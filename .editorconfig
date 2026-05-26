@@ -1,136 +1,133 @@
 # =========================================================
-# Pigeon Studios — Git Attributes
+# Pigeon Studios — Editor Configuration
 # =========================================================
 
+root = true
+
 # =========================================================
-# Default Text Handling
+# Global Defaults
 # =========================================================
 
-* text=auto eol=lf
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = spaces
+indent_size = 4
 
 # =========================================================
 # Lua / FiveM Files
 # =========================================================
 
-*.lua text eol=lf
-fxmanifest.lua text eol=lf
+[*.lua]
+indent_style = spaces
+indent_size = 4
+
+[fxmanifest.lua]
+indent_style = spaces
+indent_size = 4
+
+# =========================================================
+# JSON Files
+# =========================================================
+
+[*.json]
+indent_style = spaces
+indent_size = 2
+
+# =========================================================
+# YAML Files
+# =========================================================
+
+[*.{yml,yaml}]
+indent_style = spaces
+indent_size = 2
+
+# =========================================================
+# Markdown Files
+# =========================================================
+
+[*.md]
+trim_trailing_whitespace = false
+indent_style = spaces
+indent_size = 2
 
 # =========================================================
 # Web / NUI Files
 # =========================================================
 
-*.html text eol=lf
-*.css text eol=lf
-*.js text eol=lf
-*.mjs text eol=lf
-*.cjs text eol=lf
-*.ts text eol=lf
-*.tsx text eol=lf
-*.jsx text eol=lf
+[*.{html,css,js,mjs,cjs}]
+indent_style = spaces
+indent_size = 2
 
 # =========================================================
-# Configuration / Documentation Files
+# TypeScript / Frontend Framework Files
 # =========================================================
 
-*.json text eol=lf
-*.yml text eol=lf
-*.yaml text eol=lf
-*.md text eol=lf
-*.sql text eol=lf
-*.xml text eol=lf
-*.cfg text eol=lf
-*.conf text eol=lf
-*.ini text eol=lf
+[*.{ts,tsx,jsx}]
+indent_style = spaces
+indent_size = 2
+
+# =========================================================
+# GitHub Files
+# =========================================================
+
+[.github/**]
+indent_style = spaces
+indent_size = 2
 
 # =========================================================
 # Shell Scripts
 # =========================================================
 
-*.sh text eol=lf
+[*.sh]
+indent_style = spaces
+indent_size = 2
+end_of_line = lf
 
 # =========================================================
 # Windows Scripts
 # =========================================================
 
-*.bat text eol=crlf
-*.cmd text eol=crlf
-*.ps1 text eol=crlf
+[*.{bat,cmd}]
+end_of_line = crlf
+indent_style = spaces
+indent_size = 2
+
+[*.ps1]
+end_of_line = crlf
+indent_style = spaces
+indent_size = 4
 
 # =========================================================
-# FiveM Binary Assets
+# SQL Files
 # =========================================================
 
-*.ytd binary
-*.ydd binary
-*.ydr binary
-*.yft binary
-*.ymap binary
-*.ytyp binary
-*.awc binary
-*.rel binary
+[*.sql]
+indent_style = spaces
+indent_size = 4
 
 # =========================================================
-# Images
+# XML Files
 # =========================================================
 
-*.png binary
-*.jpg binary
-*.jpeg binary
-*.gif binary
-*.webp binary
-*.ico binary
-*.svg text eol=lf
+[*.xml]
+indent_style = spaces
+indent_size = 2
 
 # =========================================================
-# Audio
+# Config Files
 # =========================================================
 
-*.ogg binary
-*.wav binary
-*.mp3 binary
+[*.{cfg,conf,ini}]
+indent_style = spaces
+indent_size = 4
 
 # =========================================================
-# Video
+# Environment Examples
 # =========================================================
 
-*.mp4 binary
-*.webm binary
-
-# =========================================================
-# Archives
-# =========================================================
-
-*.zip binary
-*.7z binary
-*.rar binary
-*.tar binary
-*.gz binary
-
-# =========================================================
-# Database Files
-# =========================================================
-
-*.db binary
-*.sqlite binary
-*.sqlite3 binary
-
-# =========================================================
-# Prevent GitHub Linguist Misclassification
-# =========================================================
-
-*.md linguist-documentation
-
-# =========================================================
-# Generated / Minified Files
-# =========================================================
-
-*.min.js linguist-generated
-*.min.css linguist-generated
-
-# =========================================================
-# Lock Files
-# =========================================================
-
-package-lock.json text eol=lf
-yarn.lock text eol=lf
-pnpm-lock.yaml text eol=lf
+[.env.example]
+indent_style = spaces
+indent_size = 4

@@ -1,0 +1,245 @@
+name: Bug Report
+description: Report an issue, malfunction, or unexpected behaviour.
+title: "[BUG] "
+labels:
+  - bug
+
+assignees:
+  - WelshPigeon
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Pigeon Studios — Bug Report
+
+        Please complete this form fully and accurately.
+
+        Incomplete reports may be closed without response.
+
+        Ensure you are using:
+        - The latest resource version
+        - The latest recommended FXServer artifact
+        - Properly installed dependencies
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Provide a clear and concise explanation of the issue.
+      placeholder: Describe the issue here.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behaviour
+    attributes:
+      label: Expected Behaviour
+      description: Describe what should have happened.
+      placeholder: Explain the expected result.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behaviour
+    attributes:
+      label: Actual Behaviour
+      description: Describe what actually happened.
+      placeholder: Explain the actual result.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps To Reproduce
+      description: Explain how to reproduce the issue.
+      placeholder: |
+        1. Start the resource
+        2. Open the interaction menu
+        3. Trigger the action
+        4. Observe the issue
+    validations:
+      required: true
+
+  - type: dropdown
+    id: framework
+    attributes:
+      label: Framework
+      description: Which framework are you using?
+      options:
+        - QBCore
+        - Qbox
+        - ESX
+        - Standalone
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: server-artifact
+    attributes:
+      label: FXServer Artifact Version
+      description: Provide your current FXServer artifact version.
+      placeholder: "Latest Recommended"
+    validations:
+      required: true
+
+  - type: input
+    id: resource-version
+    attributes:
+      label: Resource Version
+      description: What version of the resource are you using?
+      placeholder: "1.0.0"
+    validations:
+      required: true
+
+  - type: input
+    id: branch
+    attributes:
+      label: Git Branch
+      description: Which branch are you running?
+      placeholder: "main"
+
+  - type: input
+    id: commit
+    attributes:
+      label: Commit Hash / Release
+      description: Provide the commit hash or release tag if applicable.
+      placeholder: "v1.0.0"
+
+  - type: dropdown
+    id: operating-system
+    attributes:
+      label: Operating System
+      options:
+        - Windows
+        - Linux
+        - Other
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Dependency Information
+
+  - type: input
+    id: ox-lib-version
+    attributes:
+      label: ox_lib Version
+      placeholder: "3.x.x"
+
+  - type: input
+    id: oxmysql-version
+    attributes:
+      label: oxmysql Version
+      placeholder: "2.x.x"
+
+  - type: input
+    id: oxinventory-version
+    attributes:
+      label: ox_inventory Version
+      placeholder: "2.x.x"
+
+  - type: input
+    id: oxtarget-version
+    attributes:
+      label: ox_target Version
+      placeholder: "1.x.x"
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Resource Configuration
+
+  - type: dropdown
+    id: debug-enabled
+    attributes:
+      label: Debug Mode Enabled
+      options:
+        - "Yes"
+        - "No"
+
+  - type: dropdown
+    id: validation-enabled
+    attributes:
+      label: Validation Enabled
+      options:
+        - "Yes"
+        - "No"
+
+  - type: dropdown
+    id: cleanup-enabled
+    attributes:
+      label: Cleanup Enabled
+      options:
+        - "Yes"
+        - "No"
+
+  - type: dropdown
+    id: version-checker-enabled
+    attributes:
+      label: Version Checker Enabled
+      options:
+        - "Yes"
+        - "No"
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Database Information
+
+  - type: dropdown
+    id: database-type
+    attributes:
+      label: Database Type
+      options:
+        - MariaDB
+        - MySQL
+        - Other
+
+  - type: input
+    id: database-version
+    attributes:
+      label: Database Version
+      placeholder: "10.11"
+
+  - type: dropdown
+    id: install-type
+    attributes:
+      label: Installation Type
+      options:
+        - Fresh Install
+        - Existing Database
+        - Upgraded Existing Version
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Error Output
+      description: Paste all relevant console errors or logs.
+      render: shell
+
+  - type: textarea
+    id: additional-information
+    attributes:
+      label: Additional Information
+      description: Add screenshots, videos, or any additional information here.
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have searched for existing bug reports.
+          required: true
+
+        - label: I am using the latest version of the resource.
+          required: true
+
+        - label: I have provided sufficient information to reproduce the issue.
+          required: true
+
+        - label: I understand incomplete reports may be closed.
+          required: true

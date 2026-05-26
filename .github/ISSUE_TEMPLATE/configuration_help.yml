@@ -1,0 +1,83 @@
+name: Configuration Help
+description: Request help with installation, setup, or configuration.
+title: "[CONFIG] "
+labels:
+  - support
+  - configuration
+
+assignees:
+  - WelshPigeon
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Pigeon Studios — Configuration Support
+
+        Please complete this form accurately.
+
+        Most setup issues are caused by:
+        - Incorrect ensure order
+        - Missing dependencies
+        - Outdated artifacts
+        - Framework incompatibilities
+        - Incorrect configuration values
+
+  - type: input
+    id: resource-version
+    attributes:
+      label: Resource Version
+      placeholder: "1.0.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: framework
+    attributes:
+      label: Framework
+      options:
+        - QBCore
+        - Qbox
+        - ESX
+        - Standalone
+    validations:
+      required: true
+
+  - type: textarea
+    id: issue
+    attributes:
+      label: Configuration Issue
+      description: Explain the setup problem you are experiencing.
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-config
+    attributes:
+      label: Relevant Configuration
+      description: Paste relevant config sections.
+      render: lua
+
+  - type: textarea
+    id: ensure-order
+    attributes:
+      label: Ensure Order
+      description: Paste your server ensure order.
+      render: cfg
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console Logs
+      render: shell
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have read the README documentation.
+          required: true
+
+        - label: I am using the latest version.
+          required: true

@@ -1,0 +1,69 @@
+name: Performance Issue
+description: Report optimisation, resmon, networking, or performance-related issues.
+title: "[PERFORMANCE] "
+labels:
+  - optimisation
+  - performance
+
+assignees:
+  - WelshPigeon
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Performance Report
+
+        Please provide accurate profiling information where possible.
+
+  - type: input
+    id: resource-version
+    attributes:
+      label: Resource Version
+      placeholder: "1.0.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: framework
+    attributes:
+      label: Framework
+      options:
+        - QBCore
+        - Qbox
+        - ESX
+        - Standalone
+    validations:
+      required: true
+
+  - type: textarea
+    id: issue
+    attributes:
+      label: Performance Issue
+      description: Describe the performance issue.
+    validations:
+      required: true
+
+  - type: textarea
+    id: resmon
+    attributes:
+      label: Resmon Information
+      description: Provide resmon values and behaviour.
+      render: shell
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction Steps
+      description: Explain how the issue occurs.
+
+  - type: textarea
+    id: profiling
+    attributes:
+      label: Profiling / Debug Information
+      render: shell
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context

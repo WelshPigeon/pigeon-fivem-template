@@ -1,136 +1,172 @@
 # =========================================================
-# Pigeon Studios — Git Attributes
+# Pigeon Studios — FiveM Production Repository Standard
 # =========================================================
 
 # =========================================================
-# Default Text Handling
+# Operating System Files
 # =========================================================
 
-* text=auto eol=lf
+.DS_Store
+Thumbs.db
+desktop.ini
 
 # =========================================================
-# Lua / FiveM Files
+# Visual Studio Code
 # =========================================================
 
-*.lua text eol=lf
-fxmanifest.lua text eol=lf
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
 
 # =========================================================
-# Web / NUI Files
+# JetBrains / IntelliJ
 # =========================================================
 
-*.html text eol=lf
-*.css text eol=lf
-*.js text eol=lf
-*.mjs text eol=lf
-*.cjs text eol=lf
-*.ts text eol=lf
-*.tsx text eol=lf
-*.jsx text eol=lf
+.idea/
+*.iml
 
 # =========================================================
-# Configuration / Documentation Files
+# Logs
 # =========================================================
 
-*.json text eol=lf
-*.yml text eol=lf
-*.yaml text eol=lf
-*.md text eol=lf
-*.sql text eol=lf
-*.xml text eol=lf
-*.cfg text eol=lf
-*.conf text eol=lf
-*.ini text eol=lf
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # =========================================================
-# Shell Scripts
+# Environment / Secrets
 # =========================================================
 
-*.sh text eol=lf
+.env
+.env.*
+!.env.example
+
+server/secrets.lua
+shared/secrets.lua
+
+secrets.json
+credentials.json
+tokens.json
 
 # =========================================================
-# Windows Scripts
+# Cache / Temporary Files
 # =========================================================
 
-*.bat text eol=crlf
-*.cmd text eol=crlf
-*.ps1 text eol=crlf
+cache/
+server-cache/
+server-cache-priv/
 
-# =========================================================
-# FiveM Binary Assets
-# =========================================================
-
-*.ytd binary
-*.ydd binary
-*.ydr binary
-*.yft binary
-*.ymap binary
-*.ytyp binary
-*.awc binary
-*.rel binary
-
-# =========================================================
-# Images
-# =========================================================
-
-*.png binary
-*.jpg binary
-*.jpeg binary
-*.gif binary
-*.webp binary
-*.ico binary
-*.svg text eol=lf
-
-# =========================================================
-# Audio
-# =========================================================
-
-*.ogg binary
-*.wav binary
-*.mp3 binary
-
-# =========================================================
-# Video
-# =========================================================
-
-*.mp4 binary
-*.webm binary
-
-# =========================================================
-# Archives
-# =========================================================
-
-*.zip binary
-*.7z binary
-*.rar binary
-*.tar binary
-*.gz binary
+tmp/
+temp/
+.cache/
 
 # =========================================================
 # Database Files
 # =========================================================
 
-*.db binary
-*.sqlite binary
-*.sqlite3 binary
+*.db
+*.sqlite
+*.sqlite3
+*.sql
 
 # =========================================================
-# Prevent GitHub Linguist Misclassification
+# NodeJS / Package Managers
 # =========================================================
 
-*.md linguist-documentation
+node_modules/
+
+# Lockfiles are intentionally excluded from ignore.
+# Commit them for reproducible dependency installs.
 
 # =========================================================
-# Generated / Minified Files
+# Build / Distribution
 # =========================================================
 
-*.min.js linguist-generated
-*.min.css linguist-generated
+dist/
+build/
+coverage/
 
 # =========================================================
-# Lock Files
+# Lua Compiled / Bytecode
 # =========================================================
 
-package-lock.json text eol=lf
-yarn.lock text eol=lf
-pnpm-lock.yaml text eol=lf
+*.luac
+luac.out
+
+# =========================================================
+# LuaRocks
+# =========================================================
+
+*.src.rock
+
+# =========================================================
+# Compiled Objects / Libraries
+# =========================================================
+
+*.o
+*.os
+*.ko
+*.obj
+*.elf
+
+*.lib
+*.a
+*.la
+*.lo
+*.def
+*.exp
+
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# =========================================================
+# Executables
+# =========================================================
+
+*.exe
+*.out
+*.app
+*.hex
+
+# =========================================================
+# FiveM Artifact Junk
+# =========================================================
+
+*.fxap
+*.fxmanifest.cache
+
+# =========================================================
+# Asset Source Files
+# =========================================================
+
+*.blend1
+*.blend2
+
+# PSD files are intentionally NOT ignored globally.
+# Many repositories may intentionally include source assets.
+
+# =========================================================
+# Archives / Backups
+# =========================================================
+
+*.zip
+*.rar
+*.7z
+
+*.bak
+*.old
+*.orig
+*.rej
+
+# =========================================================
+# Local Development Directories
+# =========================================================
+
+.local/
+.dev/

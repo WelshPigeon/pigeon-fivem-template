@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: Pigeon Studios Discord
+    url: https://discord.gg/YOURDISCORD
+    about: Join the Discord server for support, announcements, and community discussions.
+
+  - name: Security Vulnerability Reports
+    url: mailto:security@pigeonstudios.co.uk
+    about: Report security vulnerabilities privately.
+
+  - name: Documentation
+    url: https://github.com/YOUR_GITHUB/YOUR_REPOSITORY/wiki
+    about: Read the official documentation and setup guides.

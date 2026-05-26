@@ -1,0 +1,181 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+      - development
+
+  pull_request:
+    branches:
+      - main
+      - staging
+      - development
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate Resource
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Validate Required Files
+        shell: bash
+        run: |
+          set -e
+
+          REQUIRED_FILES=(
+            "fxmanifest.lua"
+            "README.md"
+            "CHANGELOG.md"
+            "CONTRIBUTING.md"
+            "LICENSE"
+            "SECURITY.md"
+            "version"
+            "changelog.txt"
+            ".gitignore"
+            ".editorconfig"
+          )
+
+          for file in "${REQUIRED_FILES[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "Missing required file: $file"
+              exit 1
+            fi
+          done
+
+      - name: Validate Recommended Folders
+        shell: bash
+        run: |
+          set -e
+
+          REQUIRED_DIRS=(
+            "client"
+            "server"
+            "shared"
+            "configuration"
+          )
+
+          for dir in "${REQUIRED_DIRS[@]}"; do
+            if [ ! -d "$dir" ]; then
+              echo "Missing required folder: $dir"
+              exit 1
+            fi
+          done
+
+      - name: Validate Version Format
+        shell: bash
+        run: |
+          set -e
+
+          VERSION_FILE="$(cat version | tr -d '[:space:]')"
+
+          if [[ ! "$VERSION_FILE" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid version format in version file. Expected format: 1.0.0"
+            exit 1
+          fi
+
+          if ! grep -q "version '$VERSION_FILE'" fxmanifest.lua && ! grep -q "version \"$VERSION_FILE\"" fxmanifest.lua; then
+            echo "fxmanifest.lua version does not match version file."
+            exit 1
+          fi
+
+      - name: Check For Forbidden Secrets
+        shell: bash
+        run: |
+          set -e
+
+          FORBIDDEN_PATTERNS=(
+            "discord.com/api/webhooks"
+            "api_key"
+            "apikey"
+            "secret_key"
+            "client_secret"
+            "bot_token"
+            "PRIVATE KEY"
+          )
+
+          for pattern in "${FORBIDDEN_PATTERNS[@]}"; do
+            if grep -R -i "$pattern" . \
+              --exclude-dir=.git \
+              --exclude-dir=node_modules \
+              --exclude="ci.yml"; then
+              echo "Forbidden secret-like pattern found: $pattern"
+              exit 1
+            fi
+          done
+
+      - name: Check For Template Placeholders
+        shell: bash
+        run: |
+          set -e
+
+          PLACEHOLDERS=(
+            "YOUR_RESOURCE_NAME"
+            "YOUR_DISCORD"
+            "YOUR_WEBSITE"
+            "TODO:"
+            "FIXME:"
+          )
+
+          for placeholder in "${PLACEHOLDERS[@]}"; do
+            if grep -R "$placeholder" . \
+              --exclude-dir=.git \
+              --exclude-dir=node_modules \
+              --exclude="ci.yml"; then
+              echo "Template placeholder still exists: $placeholder"
+              exit 1
+            fi
+          done
+
+      - name: Validate Lua Syntax
+        shell: bash
+        run: |
+          set -e
+
+          sudo apt-get update
+          sudo apt-get install -y lua5.4
+
+          find . -name "*.lua" \
+            -not -path "./.git/*" \
+            -print0 | while IFS= read -r -d '' file; do
+              echo "Checking Lua syntax: $file"
+              luac5.4 -p "$file"
+            done
+
+      - name: Validate JSON Files
+        shell: bash
+        run: |
+          set -e
+
+          if find . -name "*.json" -not -path "./.git/*" | grep -q .; then
+            find . -name "*.json" -not -path "./.git/*" -print0 | while IFS= read -r -d '' file; do
+              echo "Checking JSON syntax: $file"
+              python3 -m json.tool "$file" > /dev/null
+            done
+          fi
+
+      - name: Validate fxmanifest Basics
+        shell: bash
+        run: |
+          set -e
+
+          grep -q "fx_version" fxmanifest.lua || { echo "fxmanifest.lua missing fx_version"; exit 1; }
+          grep -q "game" fxmanifest.lua || { echo "fxmanifest.lua missing game"; exit 1; }
+          grep -q "author" fxmanifest.lua || { echo "fxmanifest.lua missing author"; exit 1; }
+          grep -q "version" fxmanifest.lua || { echo "fxmanifest.lua missing version"; exit 1; }
+
+      - name: CI Complete
+        run: echo "FiveM resource validation completed successfully."
