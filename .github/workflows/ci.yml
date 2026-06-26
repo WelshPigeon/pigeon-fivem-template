@@ -92,6 +92,7 @@ jobs:
 
           grep -q "repository" fxmanifest.lua || { echo "fxmanifest.lua missing repository metadata"; exit 1; }
           grep -q "psg_name" fxmanifest.lua || { echo "fxmanifest.lua missing psg_name metadata"; exit 1; }
+          grep -q "psg_version_slug" fxmanifest.lua || { echo "fxmanifest.lua missing psg_version_slug metadata"; exit 1; }
           test -f "server/version_check.lua" || { echo "Missing server/version_check.lua"; exit 1; }
 
       - name: Check For Forbidden Secrets

@@ -148,7 +148,7 @@ local function decodeJson(body)
 
     local ok, result = pcall(json.decode, body)
     if not ok or type(result) ~= "table" then
-        return nil, "Invalid GitHub response"
+        return nil, "Invalid registry response"
     end
 
     return result, nil
@@ -158,7 +158,7 @@ local function httpGet(url, callback)
     PerformHttpRequest(url, function(status, body)
         callback(tonumber(status) or 0, body or "")
     end, "GET", "", {
-        ["Accept"] = "application/vnd.github+json",
+        ["Accept"] = "application/json",
         ["User-Agent"] = "Pigeon-Studios-Version-Checker/" .. resource,
     }, {
         timeout = Config.timeoutMs,

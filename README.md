@@ -147,12 +147,12 @@ psg_website 'https://pigeonstudios.co.uk'
 psg_version_slug 'resource-name'
 ```
 
-Supported repository formats:
+Supported registry slug examples:
 
 ```lua
-repository 'WelshPigeon/RESOURCE_NAME'
-repository 'https://github.com/WelshPigeon/RESOURCE_NAME'
-repository 'https://github.com/WelshPigeon/RESOURCE_NAME.git'
+psg_version_slug 'payroll'
+psg_version_slug 'pigeon-trash'
+psg_version_slug 'taser-cartridge-system'
 ```
 
 ## NUI

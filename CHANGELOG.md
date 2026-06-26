@@ -1,8 +1,8 @@
 # Changelog
 
-All notable changes to this repository should be documented through GitHub Releases.
+All notable changes to this repository should be documented in the PSG version registry.
 
-This file exists as a high-level release reference for the template itself. Individual resource changelogs should live in the body of each GitHub Release so `server/version_check.lua` can display them in the FiveM console.
+This file exists as a high-level release reference for the template itself. Individual resource changelogs should live in `pigeon-resource-versions/<slug>/latest.json` so `server/version_check.lua` can display them in the FiveM console.
 
 ## Versioning Standard
 
@@ -21,7 +21,7 @@ MAJOR.MINOR.PATCH
 Recommended flow:
 
 ```text
-development -> staging -> main -> GitHub Release
+development -> staging -> main -> PSG version registry
 ```
 
 Release checklist:
@@ -40,7 +40,7 @@ Added:
 
 - FiveM `fxmanifest.lua`
 - PSG metadata fields
-- GitHub Releases version checker
+- PSG version registry checker
 - client/server/shared/configuration layout
 - localisation folder structure
 - optional NUI structure
