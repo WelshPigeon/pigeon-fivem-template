@@ -13,6 +13,7 @@ repository 'https://github.com/WelshPigeon/pigeon-fivem-template'
 psg_name 'pigeon-fivem-template'
 psg_brand 'Pigeon Studios Group'
 psg_website 'https://pigeonstudios.co.uk'
+psg_version_slug 'pigeon-fivem-template'
 
 escrow_ignore {
     'configuration/*.lua',

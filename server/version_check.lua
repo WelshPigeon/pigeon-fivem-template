@@ -7,11 +7,12 @@ local Config = {
 
     -- Template defaults. Prefer overriding these in fxmanifest.lua:
     -- version '1.0.0'
-    -- repository 'WelshPigeon/my-resource'
+    -- psg_version_slug 'my-resource'
     -- psg_name 'My Resource'
     defaultName = "pigeon-fivem-template",
-    defaultRepository = "WelshPigeon/pigeon-fivem-template",
-    sourceName = "GitHub Releases",
+    defaultSlug = "pigeon-fivem-template",
+    registryBaseUrl = "https://raw.githubusercontent.com/WelshPigeon/pigeon-resource-versions/main",
+    sourceName = "PSG Version Registry",
 
     checkDelayMs = 1500,
     timeoutMs = 10000,
@@ -113,42 +114,31 @@ local function readWebsite()
     return metadata("psg_website") or metadata("website") or Config.website
 end
 
-local function normalizeRepository(repository)
-    repository = compact(repository)
-    if not repository then return nil end
-
-    repository = repository:gsub("^https://github%.com/", "")
-    repository = repository:gsub("^http://github%.com/", "")
-    repository = repository:gsub("^github%.com/", "")
-    repository = repository:gsub("%.git$", "")
-    repository = repository:gsub("/+$", "")
-
-    local owner, repo = repository:match("^([^/%s]+)/([^/%s]+)$")
-    if not owner or not repo then
-        return nil
-    end
-
-    return owner .. "/" .. repo
+local function normalizeSlug(slug)
+    slug = compact(slug)
+    if not slug then return nil end
+    slug = slug:lower()
+    slug = slug:gsub("[^%w%-_]", "-")
+    slug = slug:gsub("%-+", "-")
+    slug = slug:gsub("^%-", ""):gsub("%-$", "")
+    return compact(slug)
 end
 
-local function readRepository()
-    return normalizeRepository(metadata("repository"))
-        or normalizeRepository(metadata("repo"))
-        or normalizeRepository(metadata("github"))
-        or normalizeRepository(metadata("psg_repository"))
-        or normalizeRepository(Config.defaultRepository)
+local function readVersionSlug()
+    return normalizeSlug(metadata("psg_version_slug"))
+        or normalizeSlug(metadata("version_slug"))
+        or normalizeSlug(metadata("psg_slug"))
+        or normalizeSlug(Config.defaultSlug)
+        or normalizeSlug(resource)
 end
 
-local function githubApiUrl(repository)
-    return "https://api.github.com/repos/" .. repository .. "/releases/latest"
+local function readRegistryBaseUrl()
+    local baseUrl = metadata("psg_version_registry") or Config.registryBaseUrl
+    return trim(baseUrl):gsub("/+$", "")
 end
 
-local function githubRepoUrl(repository)
-    return "https://github.com/" .. repository
-end
-
-local function githubReleasesUrl(repository)
-    return githubRepoUrl(repository) .. "/releases"
+local function latestUrl(slug)
+    return readRegistryBaseUrl() .. "/" .. slug .. "/latest.json"
 end
 
 local function decodeJson(body)
@@ -243,39 +233,54 @@ local function printNotes(notes)
     end
 end
 
-local function printUnavailable(displayName, localVersion, repository, reason)
+local function releaseNotes(release)
+    if type(release.notes) == "table" then
+        local notes = {}
+        for i = 1, #release.notes do
+            if compact(release.notes[i]) then
+                notes[#notes + 1] = trim(release.notes[i])
+            end
+        end
+
+        return (#notes > 0) and notes or nil
+    end
+
+    return splitReleaseNotes(release.body)
+end
+
+local function printUnavailable(displayName, localVersion, slug, reason)
     startBlock(displayName)
     line("Version", C.accent .. "v" .. stripVersionPrefix(localVersion) .. C.reset)
     line("Updates", C.bad .. "Check unavailable" .. C.reset)
     line("Reason", C.dim .. reason .. C.reset)
 
-    if repository then
-        line("Releases", C.link .. githubReleasesUrl(repository) .. C.reset)
+    if slug then
+        line("Registry", C.link .. latestUrl(slug) .. C.reset)
     else
-        line("Setup", C.dim .. "Add repository 'owner/repo' to fxmanifest.lua" .. C.reset)
+        line("Setup", C.dim .. "Add psg_version_slug 'resource-name' to fxmanifest.lua" .. C.reset)
     end
 
     endBlock()
 end
 
-local function printNoRelease(displayName, localVersion, repository)
+local function printNoRegistryEntry(displayName, localVersion, slug)
     startBlock(displayName)
     line("Version", C.accent .. "v" .. stripVersionPrefix(localVersion) .. C.reset)
-    line("Updates", C.warn .. "No GitHub release published yet" .. C.reset)
-    line("Next", plain("Create release tag ") .. C.good .. "v" .. stripVersionPrefix(localVersion) .. C.reset)
-    line("Releases", C.link .. githubReleasesUrl(repository) .. C.reset)
+    line("Updates", C.warn .. "No registry entry found" .. C.reset)
+    line("Next", plain("Add ") .. C.good .. slug .. "/latest.json" .. C.reset)
+    line("Registry", C.link .. latestUrl(slug) .. C.reset)
     endBlock()
 end
 
-local function printUpToDate(displayName, localVersion, repository)
+local function printUpToDate(displayName, localVersion, slug)
     startBlock(displayName)
     line("Version", C.good .. "v" .. stripVersionPrefix(localVersion) .. C.reset)
     line("Updates", C.good .. "Up to date" .. C.reset)
-    line("Releases", C.link .. githubReleasesUrl(repository) .. C.reset)
+    line("Registry", C.link .. latestUrl(slug) .. C.reset)
     endBlock()
 end
 
-local function printOutdated(displayName, localVersion, latestVersion, repository, notes)
+local function printOutdated(displayName, localVersion, latestVersion, slug, notes)
     startBlock(displayName)
     line(
         "Version",
@@ -285,11 +290,11 @@ local function printOutdated(displayName, localVersion, latestVersion, repositor
     )
     line("Updates", C.warn .. "Update available" .. C.reset)
     printNotes(notes)
-    line("Releases", C.link .. githubReleasesUrl(repository) .. C.reset)
+    line("Registry", C.link .. latestUrl(slug) .. C.reset)
     endBlock()
 end
 
-local function printDevBuild(displayName, localVersion, latestVersion, repository)
+local function printDevBuild(displayName, localVersion, latestVersion, slug)
     startBlock(displayName)
     line(
         "Version",
@@ -298,55 +303,55 @@ local function printDevBuild(displayName, localVersion, latestVersion, repositor
         C.dim .. "v" .. stripVersionPrefix(latestVersion) .. C.reset
     )
     line("Updates", C.accent .. "Development build" .. C.reset)
-    line("Releases", C.link .. githubReleasesUrl(repository) .. C.reset)
+    line("Registry", C.link .. latestUrl(slug) .. C.reset)
     endBlock()
 end
 
-local function handleLatestRelease(displayName, localVersion, repository, status, body)
+local function handleLatestRelease(displayName, localVersion, slug, status, body)
     if status == 404 then
-        printNoRelease(displayName, localVersion, repository)
+        printNoRegistryEntry(displayName, localVersion, slug)
         return
     end
 
     if status ~= 200 then
-        printUnavailable(displayName, localVersion, repository, "GitHub returned HTTP " .. tostring(status))
+        printUnavailable(displayName, localVersion, slug, "Registry returned HTTP " .. tostring(status))
         return
     end
 
     local release, decodeError = decodeJson(body)
     if not release then
-        printUnavailable(displayName, localVersion, repository, decodeError)
+        printUnavailable(displayName, localVersion, slug, decodeError)
         return
     end
 
-    local latestVersion = compact(release.tag_name) or compact(release.name)
+    local latestVersion = compact(release.version) or compact(release.tag) or compact(release.tag_name)
     if not latestVersion then
-        printUnavailable(displayName, localVersion, repository, "Latest release has no tag")
+        printUnavailable(displayName, localVersion, slug, "Registry entry has no version")
         return
     end
 
     local comparison = compareVersions(localVersion, latestVersion)
     if comparison == 0 then
-        printUpToDate(displayName, localVersion, repository)
+        printUpToDate(displayName, localVersion, slug)
     elseif comparison > 0 then
-        printDevBuild(displayName, localVersion, latestVersion, repository)
+        printDevBuild(displayName, localVersion, latestVersion, slug)
     else
-        printOutdated(displayName, localVersion, latestVersion, repository, splitReleaseNotes(release.body))
+        printOutdated(displayName, localVersion, latestVersion, slug, releaseNotes(release))
     end
 end
 
 local function checkVersion()
     local displayName = readDisplayName()
     local localVersion = readLocalVersion()
-    local repository = readRepository()
+    local slug = readVersionSlug()
 
-    if not repository then
-        printUnavailable(displayName, localVersion, nil, "Missing repository metadata")
+    if not slug then
+        printUnavailable(displayName, localVersion, nil, "Missing version registry slug")
         return
     end
 
-    httpGet(githubApiUrl(repository), function(status, body)
-        handleLatestRelease(displayName, localVersion, repository, status, body)
+    httpGet(latestUrl(slug), function(status, body)
+        handleLatestRelease(displayName, localVersion, slug, status, body)
     end)
 end
 

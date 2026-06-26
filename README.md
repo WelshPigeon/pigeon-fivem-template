@@ -2,7 +2,7 @@
 
 Enterprise-grade FiveM resource template by Pigeon Studios Group.
 
-This repository is designed as the starting point for PSG FiveM resources. It includes a production-ready layout, shared configuration, client/server entry points, localisation folders, GitHub issue templates, CI validation, and the PSG GitHub Releases version checker.
+This repository is designed as the starting point for PSG FiveM resources. It includes a production-ready layout, shared configuration, client/server entry points, localisation folders, GitHub issue templates, CI validation, and the PSG version registry checker.
 
 ## Quick Start
 
@@ -35,6 +35,7 @@ version '1.0.0'
 repository 'https://github.com/WelshPigeon/RESOURCE_NAME'
 
 psg_name 'RESOURCE_NAME'
+psg_version_slug 'resource-name'
 provide 'RESOURCE_NAME'
 ```
 
@@ -48,11 +49,11 @@ The source of truth for the installed resource version is `fxmanifest.lua`:
 version '1.0.0'
 ```
 
-Remote version checks use GitHub Releases:
+Remote version checks use the PSG version registry:
 
-- latest version: latest release tag, for example `v1.0.1`
-- changelog: latest release body
-- repository: `repository` metadata in `fxmanifest.lua`
+- latest version: `version` inside `pigeon-resource-versions/<slug>/latest.json`
+- changelog: `notes` inside `pigeon-resource-versions/<slug>/latest.json`
+- registry slug: `psg_version_slug` metadata in `fxmanifest.lua`
 
 The old loose `version` and `changelog.txt` files are no longer required.
 
@@ -143,6 +144,7 @@ repository 'WelshPigeon/RESOURCE_NAME'
 psg_name 'RESOURCE_NAME'
 psg_brand 'Pigeon Studios Group'
 psg_website 'https://pigeonstudios.co.uk'
+psg_version_slug 'resource-name'
 ```
 
 Supported repository formats:
