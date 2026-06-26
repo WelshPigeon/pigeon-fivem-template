@@ -43,8 +43,6 @@ jobs:
             "CONTRIBUTING.md"
             "LICENSE"
             "SECURITY.md"
-            "version"
-            "changelog.txt"
             ".gitignore"
             ".editorconfig"
           )
@@ -80,17 +78,21 @@ jobs:
         run: |
           set -e
 
-          VERSION_FILE="$(cat version | tr -d '[:space:]')"
+          VERSION_VALUE="$(grep -E "^[[:space:]]*version[[:space:]]+['\"][0-9]+\.[0-9]+\.[0-9]+['\"]" fxmanifest.lua | head -n 1 | sed -E "s/.*['\"]([0-9]+\.[0-9]+\.[0-9]+)['\"].*/\1/")"
 
-          if [[ ! "$VERSION_FILE" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Invalid version format in version file. Expected format: 1.0.0"
+          if [[ ! "$VERSION_VALUE" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid fxmanifest.lua version format. Expected format: 1.0.0"
             exit 1
           fi
 
-          if ! grep -q "version '$VERSION_FILE'" fxmanifest.lua && ! grep -q "version \"$VERSION_FILE\"" fxmanifest.lua; then
-            echo "fxmanifest.lua version does not match version file."
-            exit 1
-          fi
+      - name: Validate Versioning Metadata
+        shell: bash
+        run: |
+          set -e
+
+          grep -q "repository" fxmanifest.lua || { echo "fxmanifest.lua missing repository metadata"; exit 1; }
+          grep -q "psg_name" fxmanifest.lua || { echo "fxmanifest.lua missing psg_name metadata"; exit 1; }
+          test -f "server/version_check.lua" || { echo "Missing server/version_check.lua"; exit 1; }
 
       - name: Check For Forbidden Secrets
         shell: bash

@@ -1,11 +1,11 @@
-# Pigeon Studios Proprietary Software License Agreement
+# Pigeon Studios Group Proprietary Software License Agreement
 
 ## Repository Information
 
 | Field | Value |
 |---|---|
 | Repository | RESOURCE_NAME |
-| Repository Owner | Pigeon Studios |
+| Repository Owner | Pigeon Studios Group |
 | License Type | Proprietary FiveM Resource License |
 | Effective Date | May 2026 |
 | Last Updated | May 2026 |
@@ -13,7 +13,7 @@
 
 ---
 
-Copyright © Pigeon Studios.  
+Copyright © Pigeon Studios Group.  
 All Rights Reserved.
 
 ---
@@ -38,7 +38,7 @@ If you do not agree to these terms, you must not access, use, copy, modify, dist
 
 ## 1.2 Licensor
 
-“Licensor” refers exclusively to Pigeon Studios.
+“Licensor” refers exclusively to Pigeon Studios Group.
 
 ---
 
@@ -56,9 +56,9 @@ If you do not agree to these terms, you must not access, use, copy, modify, dist
 
 # 2. Ownership
 
-The Software constitutes proprietary intellectual property owned exclusively by Pigeon Studios.
+The Software constitutes proprietary intellectual property owned exclusively by Pigeon Studios Group.
 
-All rights, title, ownership, proprietary methodologies, deployment systems, infrastructure logic, branding rights, automation workflows, operational systems, integration architecture, repository structures, and all associated intellectual property rights remain the sole property of Pigeon Studios.
+All rights, title, ownership, proprietary methodologies, deployment systems, infrastructure logic, branding rights, automation workflows, operational systems, integration architecture, repository structures, and all associated intellectual property rights remain the sole property of Pigeon Studios Group.
 
 No ownership rights are transferred under this Agreement.
 
@@ -88,7 +88,7 @@ Public access does NOT grant permission to:
 - expose proprietary implementation details
 - use the Software outside authorised environments
 
-All rights remain reserved by Pigeon Studios.
+All rights remain reserved by Pigeon Studios Group.
 
 No implied license is granted through public repository access.
 
@@ -96,7 +96,7 @@ No implied license is granted through public repository access.
 
 # 4. License Grant
 
-Subject to full compliance with this Agreement, Pigeon Studios grants the Licensee a limited, revocable, non-exclusive, non-transferable, and non-sublicensable license to use the Software solely within authorised environments.
+Subject to full compliance with this Agreement, Pigeon Studios Group grants the Licensee a limited, revocable, non-exclusive, non-transferable, and non-sublicensable license to use the Software solely within authorised environments.
 
 No rights are granted to:
 
@@ -112,7 +112,7 @@ No rights are granted to:
 - reproduce operational methodologies
 - clone infrastructure architecture
 
-Any rights not explicitly granted remain fully reserved by Pigeon Studios.
+Any rights not explicitly granted remain fully reserved by Pigeon Studios Group.
 
 ---
 
@@ -133,7 +133,7 @@ Access to the repository, source code, documentation, deployment logic, infrastr
 
 # 6. Restrictions
 
-Without prior written authorisation from Pigeon Studios, the Licensee shall not:
+Without prior written authorisation from Pigeon Studios Group, the Licensee shall not:
 
 ---
 
@@ -253,13 +253,13 @@ The Software may not be used for:
 - LLM ingestion
 - codebase replication systems
 
-without explicit written permission from Pigeon Studios.
+without explicit written permission from Pigeon Studios Group.
 
 ---
 
 # 7. Confidentiality
 
-The Software constitutes confidential and proprietary information belonging to Pigeon Studios.
+The Software constitutes confidential and proprietary information belonging to Pigeon Studios Group.
 
 The Licensee agrees to maintain strict confidentiality regarding:
 
@@ -308,13 +308,13 @@ The Licensee agrees to implement appropriate safeguards including:
 - deployment access controls
 - repository permission management
 
-Any known or suspected compromise involving the Software must be reported to Pigeon Studios immediately.
+Any known or suspected compromise involving the Software must be reported to Pigeon Studios Group immediately.
 
 ---
 
 # 10. Support & Access Termination
 
-Pigeon Studios reserves the right to terminate:
+Pigeon Studios Group reserves the right to terminate:
 
 - licensing
 - repository access
@@ -341,7 +341,7 @@ Upon termination, the Licensee must immediately:
 - terminate active infrastructure integrations
 - remove deployment pipelines involving the Software
 
-Termination does not limit any legal or equitable remedies available to Pigeon Studios.
+Termination does not limit any legal or equitable remedies available to Pigeon Studios Group.
 
 ---
 
@@ -373,13 +373,13 @@ The Software is provided “AS IS” without warranty of any kind, express or im
 - performance
 - availability
 
-Pigeon Studios does not guarantee that the Software will be uninterrupted, error-free, or suitable for any specific environment.
+Pigeon Studios Group does not guarantee that the Software will be uninterrupted, error-free, or suitable for any specific environment.
 
 ---
 
 # 14. Limitation of Liability
 
-To the maximum extent permitted by law, Pigeon Studios shall not be liable for:
+To the maximum extent permitted by law, Pigeon Studios Group shall not be liable for:
 
 - indirect damages
 - incidental damages
@@ -404,9 +404,9 @@ This limitation applies regardless of legal theory, including:
 
 # 15. Injunctive Relief
 
-The Licensee acknowledges that unauthorised disclosure, redistribution, misuse, reproduction, operational cloning, or exposure of the Software may cause irreparable harm to Pigeon Studios.
+The Licensee acknowledges that unauthorised disclosure, redistribution, misuse, reproduction, operational cloning, or exposure of the Software may cause irreparable harm to Pigeon Studios Group.
 
-Pigeon Studios shall therefore be entitled to seek:
+Pigeon Studios Group shall therefore be entitled to seek:
 
 - injunctive relief
 - equitable relief
@@ -445,7 +445,7 @@ pigeon@pigeonstudios.co.uk
 
 # Copyright Notice
 
-Copyright © Pigeon Studios.  
+Copyright © Pigeon Studios Group.  
 All Rights Reserved.
 
 Unauthorised copying, redistribution, deployment, sublicensing, exposure, commercial usage, or operational cloning of this Software is strictly prohibited.

@@ -1,332 +1,356 @@
 local resource = GetCurrentResourceName()
 
+local Config = {
+    brandName = "Pigeon Studios Group",
+    tagline = "Crafted with Precision. Designed for Performance.",
+    website = "https://pigeonstudios.co.uk",
+
+    -- Template defaults. Prefer overriding these in fxmanifest.lua:
+    -- version '1.0.0'
+    -- repository 'WelshPigeon/my-resource'
+    -- psg_name 'My Resource'
+    defaultName = "pigeon-fivem-template",
+    defaultRepository = "WelshPigeon/pigeon-fivem-template",
+    sourceName = "GitHub Releases",
+
+    checkDelayMs = 1500,
+    timeoutMs = 10000,
+    changelogLines = 8,
+}
+
 local C = {
-    reset = '^7',
-    brand = '^5',
-    accent = '^3',
-    good = '^2',
-    bad = '^1',
-    warn = '^3',
-    link = '^4',
-    muted = '^8'
+    reset = "^7",
+    brand = "^5",
+    accent = "^3",
+    good = "^2",
+    bad = "^1",
+    warn = "^3",
+    link = "^4",
+    muted = "^7",
+    dim = "^8",
 }
 
-local Brand = {
-    Name = 'Pigeon Studios',
-    Tag = 'Crafted with Precision • Designed for Performance',
-    Website = 'https://pigeonstudios.co.uk'
-}
-
-local Settings = {
-    Enabled = Config.VersionChecker and Config.VersionChecker.Enabled == true,
-    ResourceName = Config.Resource and Config.Resource.Name or resource,
-    RepositoryOwner = 'WelshPigeon',
-    VersionsRepository = 'pigeon-resource-versions',
-    Branch = 'main',
-    Delay = 1500,
-    ChangelogLimit = 6
-}
-
-local RepositoryUrl = ('https://github.com/%s/%s'):format(
-    Settings.RepositoryOwner,
-    Settings.ResourceName
-)
-
-local BaseRawUrl = ('https://raw.githubusercontent.com/%s/%s/%s/%s'):format(
-    Settings.RepositoryOwner,
-    Settings.VersionsRepository,
-    Settings.Branch,
-    Settings.ResourceName
-)
-
-local VersionUrl = BaseRawUrl .. '/version'
-local ChangelogUrl = BaseRawUrl .. '/changelog.txt'
-
--- Utility
 local function trim(value)
-    return tostring(value or ''):gsub('^%s*(.-)%s*$', '%1')
+    return (tostring(value or ""):gsub("^%s*(.-)%s*$", "%1"))
 end
 
-local function printLine(message)
-    print(message)
+local function compact(value)
+    value = trim(value)
+    if value == "" or value == "nil" or value == "false" then
+        return nil
+    end
+
+    return value
 end
 
-local function hr()
-    printLine(C.muted .. '────────────────────────────────────────────' .. C.reset)
+local function metadata(key)
+    if GetResourceMetadata then
+        return compact(GetResourceMetadata(resource, key, 0))
+    end
+
+    return nil
 end
 
-local function isValidVersion(version)
-    return tostring(version or ''):match('^%d+%.%d+%.%d+$') ~= nil
+local function stripVersionPrefix(version)
+    version = trim(version)
+    return (version:gsub("^[vV]%s*", ""))
+end
+
+local function normalizeVersion(version)
+    version = stripVersionPrefix(version)
+    local core = version:match("^([%d%.]+)")
+    return core or version
 end
 
 local function parseVersion(version)
-    local major, minor, patch = trim(version):match('^(%d+)%.(%d+)%.(%d+)$')
+    local core = normalizeVersion(version)
+    local parts = {}
+
+    for part in core:gmatch("%d+") do
+        parts[#parts + 1] = tonumber(part) or 0
+    end
 
     return {
-        major = tonumber(major) or 0,
-        minor = tonumber(minor) or 0,
-        patch = tonumber(patch) or 0
+        major = parts[1] or 0,
+        minor = parts[2] or 0,
+        patch = parts[3] or 0,
+        build = parts[4] or 0,
     }
 end
 
 local function compareVersions(left, right)
-    local leftVersion = parseVersion(left)
-    local rightVersion = parseVersion(right)
+    local a = parseVersion(left)
+    local b = parseVersion(right)
+    local keys = { "major", "minor", "patch", "build" }
 
-    if leftVersion.major ~= rightVersion.major then
-        return leftVersion.major > rightVersion.major and 1 or -1
-    end
-
-    if leftVersion.minor ~= rightVersion.minor then
-        return leftVersion.minor > rightVersion.minor and 1 or -1
-    end
-
-    if leftVersion.patch ~= rightVersion.patch then
-        return leftVersion.patch > rightVersion.patch and 1 or -1
+    for i = 1, #keys do
+        local key = keys[i]
+        if a[key] > b[key] then return 1 end
+        if a[key] < b[key] then return -1 end
     end
 
     return 0
 end
 
 local function readLocalVersion()
-    local versionFile = LoadResourceFile(resource, 'version')
-
-    if versionFile and trim(versionFile) ~= '' then
-        return trim(versionFile)
+    local legacyFile
+    if LoadResourceFile then
+        legacyFile = compact(LoadResourceFile(resource, "version"))
     end
 
-    local manifestVersion = GetResourceMetadata(resource, 'version', 0)
-
-    return trim(manifestVersion or '0.0.0')
+    return metadata("version") or metadata("psg_version") or legacyFile or "0.0.0"
 end
 
-local function splitLines(text)
-    local lines = {}
+local function readDisplayName()
+    return metadata("psg_name") or metadata("name") or Config.defaultName or resource
+end
 
-    for line in tostring(text or ''):gmatch('[^\r\n]+') do
-        line = trim(line)
+local function readBrandName()
+    return metadata("psg_brand") or Config.brandName
+end
 
-        if line ~= '' then
-            lines[#lines + 1] = line
-        end
+local function readWebsite()
+    return metadata("psg_website") or metadata("website") or Config.website
+end
+
+local function normalizeRepository(repository)
+    repository = compact(repository)
+    if not repository then return nil end
+
+    repository = repository:gsub("^https://github%.com/", "")
+    repository = repository:gsub("^http://github%.com/", "")
+    repository = repository:gsub("^github%.com/", "")
+    repository = repository:gsub("%.git$", "")
+    repository = repository:gsub("/+$", "")
+
+    local owner, repo = repository:match("^([^/%s]+)/([^/%s]+)$")
+    if not owner or not repo then
+        return nil
     end
 
-    return lines
+    return owner .. "/" .. repo
+end
+
+local function readRepository()
+    return normalizeRepository(metadata("repository"))
+        or normalizeRepository(metadata("repo"))
+        or normalizeRepository(metadata("github"))
+        or normalizeRepository(metadata("psg_repository"))
+        or normalizeRepository(Config.defaultRepository)
+end
+
+local function githubApiUrl(repository)
+    return "https://api.github.com/repos/" .. repository .. "/releases/latest"
+end
+
+local function githubRepoUrl(repository)
+    return "https://github.com/" .. repository
+end
+
+local function githubReleasesUrl(repository)
+    return githubRepoUrl(repository) .. "/releases"
+end
+
+local function decodeJson(body)
+    if not json or not json.decode then
+        return nil, "FiveM json decoder unavailable"
+    end
+
+    local ok, result = pcall(json.decode, body)
+    if not ok or type(result) ~= "table" then
+        return nil, "Invalid GitHub response"
+    end
+
+    return result, nil
 end
 
 local function httpGet(url, callback)
     PerformHttpRequest(url, function(status, body)
-        if status == 200 and body and trim(body) ~= '' then
-            callback(true, trim(body), status)
-            return
+        callback(tonumber(status) or 0, body or "")
+    end, "GET", "", {
+        ["Accept"] = "application/vnd.github+json",
+        ["User-Agent"] = "Pigeon-Studios-Version-Checker/" .. resource,
+    }, {
+        timeout = Config.timeoutMs,
+    })
+end
+
+local function splitReleaseNotes(text)
+    text = trim(text)
+    if text == "" then return nil end
+
+    local lines = {}
+
+    for line in text:gmatch("[^\r\n]+") do
+        line = trim(line)
+        line = line:gsub("^#+%s*", "")
+        line = line:gsub("^[-*]%s+", "")
+
+        if line ~= "" and not line:match("^<!%-%-") then
+            lines[#lines + 1] = line
         end
-
-        callback(false, nil, status)
-    end, 'GET')
-end
-
--- Console Output
-local function header()
-    hr()
-
-    printLine(('%s%s%s  %s%s%s'):format(
-        C.brand,
-        Brand.Name,
-        C.reset,
-        C.muted,
-        Brand.Tag,
-        C.reset
-    ))
-
-    printLine(('%sWebsite:%s %s%s%s'):format(
-        C.muted,
-        C.reset,
-        C.link,
-        Brand.Website,
-        C.reset
-    ))
-
-    printLine(('%sResource:%s %s%s%s'):format(
-        C.muted,
-        C.reset,
-        C.accent,
-        Settings.ResourceName,
-        C.reset
-    ))
-
-    hr()
-end
-
-local function boxLine(label, value)
-    printLine(('%s•%s %s%s%s %s'):format(
-        C.muted,
-        C.reset,
-        C.muted,
-        label,
-        C.reset,
-        value
-    ))
-end
-
-local function boxSection(title)
-    printLine(('%s%s%s'):format(
-        C.muted,
-        title,
-        C.reset
-    ))
-end
-
-local function printUpToDate(localVersion)
-    header()
-
-    boxLine('Status:', C.good .. 'UP TO DATE' .. C.reset)
-    boxLine('Version:', C.good .. 'v' .. localVersion .. C.reset)
-    boxLine('Repository:', C.link .. RepositoryUrl .. C.reset)
-
-    hr()
-end
-
-local function printOutdated(localVersion, remoteVersion, changelogLines)
-    header()
-
-    boxLine('Status:', C.bad .. 'OUTDATED' .. C.reset)
-
-    boxLine(
-        'Version:',
-        (C.bad .. 'v' .. localVersion .. C.reset)
-        .. (C.muted .. ' → ' .. C.reset)
-        .. (C.good .. 'v' .. remoteVersion .. C.reset)
-    )
-
-    if changelogLines and #changelogLines > 0 then
-        boxSection(C.muted .. 'What\'s New:' .. C.reset)
-
-        local limit = math.min(#changelogLines, Settings.ChangelogLimit)
-
-        for i = 1, limit do
-            printLine(('  %s-%s %s'):format(
-                C.good,
-                C.reset,
-                changelogLines[i]
-            ))
-        end
-
-        if #changelogLines > limit then
-            printLine(('  %s… (+%d more)%s'):format(
-                C.muted,
-                #changelogLines - limit,
-                C.reset
-            ))
-        end
-    else
-        boxLine('What\'s New:', C.muted .. 'Unavailable' .. C.reset)
     end
 
-    boxLine('Repository:', C.link .. RepositoryUrl .. C.reset)
-
-    hr()
+    return (#lines > 0) and lines or nil
 end
 
-local function printDevelopmentBuild(localVersion, remoteVersion)
-    header()
-
-    boxLine('Status:', C.accent .. 'DEVELOPMENT BUILD' .. C.reset)
-
-    boxLine(
-        'Version:',
-        (C.accent .. 'v' .. localVersion .. C.reset)
-        .. (C.muted .. ' > ' .. C.reset)
-        .. (C.muted .. 'v' .. remoteVersion .. C.reset)
-    )
-
-    boxLine('Repository:', C.link .. RepositoryUrl .. C.reset)
-
-    hr()
+local function p(message)
+    print(message)
 end
 
-local function printCheckFailed(localVersion, status)
-    header()
-
-    boxLine(
-        'Status:',
-        C.bad .. 'VERSION CHECK FAILED' .. C.reset
-        .. (' %s(HTTP %s)%s'):format(
-            C.muted,
-            tostring(status or 'unknown'),
-            C.reset
-        )
-    )
-
-    boxLine('Installed:', C.accent .. 'v' .. localVersion .. C.reset)
-    boxLine('Repository:', C.link .. RepositoryUrl .. C.reset)
-
-    hr()
+local function plain(value)
+    return C.reset .. tostring(value or "") .. C.reset
 end
 
-local function printInvalidRemote(localVersion, remoteVersion)
-    header()
-
-    boxLine('Status:', C.warn .. 'INVALID REMOTE VERSION' .. C.reset)
-    boxLine('Installed:', C.accent .. 'v' .. localVersion .. C.reset)
-    boxLine('Remote:', C.bad .. tostring(remoteVersion or 'unknown') .. C.reset)
-    boxLine('Expected:', C.muted .. 'Semantic version format, example: 1.0.0' .. C.reset)
-    boxLine('Repository:', C.link .. RepositoryUrl .. C.reset)
-
-    hr()
+local function line(label, value)
+    p(("  %s%-8s%s %s"):format(C.dim, label, C.reset, value))
 end
 
--- Version Check
-local function checkVersion()
-    if not Settings.Enabled then
+local function startBlock(displayName)
+    p(("%s[%s]%s %s%s%s %s(%s)%s"):format(
+        C.brand,
+        readBrandName(),
+        C.reset,
+        C.accent,
+        displayName,
+        C.reset,
+        C.dim,
+        resource,
+        C.reset
+    ))
+    p(("  %s%s%s"):format(C.dim, Config.tagline, C.reset))
+    line("Site", C.link .. readWebsite() .. C.reset)
+end
+
+local function endBlock()
+end
+
+local function printNotes(notes)
+    if not notes or #notes == 0 then
+        line("Notes", C.dim .. "No release notes published" .. C.reset)
         return
     end
 
-    local localVersion = readLocalVersion()
+    line("Notes", C.reset .. "Latest release changes" .. C.reset)
 
-    if not isValidVersion(localVersion) then
-        localVersion = '0.0.0'
+    local cap = math.min(#notes, Config.changelogLines)
+    for i = 1, cap do
+        p(("    %s-%s %s"):format(C.good, C.reset, notes[i]))
     end
 
-    httpGet(VersionUrl, function(versionOk, remoteVersion, versionStatus)
-        if not versionOk then
-            printCheckFailed(localVersion, versionStatus)
-            return
-        end
+    if #notes > cap then
+        p(("    %s... plus %d more line(s)%s"):format(C.dim, #notes - cap, C.reset))
+    end
+end
 
-        if not isValidVersion(remoteVersion) then
-            printInvalidRemote(localVersion, remoteVersion)
-            return
-        end
+local function printUnavailable(displayName, localVersion, repository, reason)
+    startBlock(displayName)
+    line("Version", C.accent .. "v" .. stripVersionPrefix(localVersion) .. C.reset)
+    line("Updates", C.bad .. "Check unavailable" .. C.reset)
+    line("Reason", C.dim .. reason .. C.reset)
 
-        local comparison = compareVersions(localVersion, remoteVersion)
+    if repository then
+        line("Releases", C.link .. githubReleasesUrl(repository) .. C.reset)
+    else
+        line("Setup", C.dim .. "Add repository 'owner/repo' to fxmanifest.lua" .. C.reset)
+    end
 
-        if comparison == 0 then
-            printUpToDate(localVersion)
-            return
-        end
+    endBlock()
+end
 
-        if comparison > 0 then
-            printDevelopmentBuild(localVersion, remoteVersion)
-            return
-        end
+local function printNoRelease(displayName, localVersion, repository)
+    startBlock(displayName)
+    line("Version", C.accent .. "v" .. stripVersionPrefix(localVersion) .. C.reset)
+    line("Updates", C.warn .. "No GitHub release published yet" .. C.reset)
+    line("Next", plain("Create release tag ") .. C.good .. "v" .. stripVersionPrefix(localVersion) .. C.reset)
+    line("Releases", C.link .. githubReleasesUrl(repository) .. C.reset)
+    endBlock()
+end
 
-        httpGet(ChangelogUrl, function(changelogOk, changelogText)
-            local changelogLines = changelogOk and splitLines(changelogText) or nil
+local function printUpToDate(displayName, localVersion, repository)
+    startBlock(displayName)
+    line("Version", C.good .. "v" .. stripVersionPrefix(localVersion) .. C.reset)
+    line("Updates", C.good .. "Up to date" .. C.reset)
+    line("Releases", C.link .. githubReleasesUrl(repository) .. C.reset)
+    endBlock()
+end
 
-            printOutdated(
-                localVersion,
-                remoteVersion,
-                changelogLines
-            )
-        end)
+local function printOutdated(displayName, localVersion, latestVersion, repository, notes)
+    startBlock(displayName)
+    line(
+        "Version",
+        C.bad .. "v" .. stripVersionPrefix(localVersion) .. C.reset ..
+        C.dim .. " -> " .. C.reset ..
+        C.good .. "v" .. stripVersionPrefix(latestVersion) .. C.reset
+    )
+    line("Updates", C.warn .. "Update available" .. C.reset)
+    printNotes(notes)
+    line("Releases", C.link .. githubReleasesUrl(repository) .. C.reset)
+    endBlock()
+end
+
+local function printDevBuild(displayName, localVersion, latestVersion, repository)
+    startBlock(displayName)
+    line(
+        "Version",
+        C.accent .. "v" .. stripVersionPrefix(localVersion) .. C.reset ..
+        C.dim .. " > " .. C.reset ..
+        C.dim .. "v" .. stripVersionPrefix(latestVersion) .. C.reset
+    )
+    line("Updates", C.accent .. "Development build" .. C.reset)
+    line("Releases", C.link .. githubReleasesUrl(repository) .. C.reset)
+    endBlock()
+end
+
+local function handleLatestRelease(displayName, localVersion, repository, status, body)
+    if status == 404 then
+        printNoRelease(displayName, localVersion, repository)
+        return
+    end
+
+    if status ~= 200 then
+        printUnavailable(displayName, localVersion, repository, "GitHub returned HTTP " .. tostring(status))
+        return
+    end
+
+    local release, decodeError = decodeJson(body)
+    if not release then
+        printUnavailable(displayName, localVersion, repository, decodeError)
+        return
+    end
+
+    local latestVersion = compact(release.tag_name) or compact(release.name)
+    if not latestVersion then
+        printUnavailable(displayName, localVersion, repository, "Latest release has no tag")
+        return
+    end
+
+    local comparison = compareVersions(localVersion, latestVersion)
+    if comparison == 0 then
+        printUpToDate(displayName, localVersion, repository)
+    elseif comparison > 0 then
+        printDevBuild(displayName, localVersion, latestVersion, repository)
+    else
+        printOutdated(displayName, localVersion, latestVersion, repository, splitReleaseNotes(release.body))
+    end
+end
+
+local function checkVersion()
+    local displayName = readDisplayName()
+    local localVersion = readLocalVersion()
+    local repository = readRepository()
+
+    if not repository then
+        printUnavailable(displayName, localVersion, nil, "Missing repository metadata")
+        return
+    end
+
+    httpGet(githubApiUrl(repository), function(status, body)
+        handleLatestRelease(displayName, localVersion, repository, status, body)
     end)
 end
 
--- Resource Lifecycle
-AddEventHandler('onResourceStart', function(startedResource)
-    if startedResource ~= resource then
-        return
-    end
-
-    SetTimeout(Settings.Delay, checkVersion)
+AddEventHandler("onResourceStart", function(startedResource)
+    if startedResource ~= resource then return end
+    SetTimeout(Config.checkDelayMs, checkVersion)
 end)

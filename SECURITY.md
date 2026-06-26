@@ -1,6 +1,6 @@
 # Security Policy
 
-Thank you for helping maintain the security and integrity of Pigeon Studios resources.
+Thank you for helping maintain the security and integrity of Pigeon Studios Group resources.
 
 This repository follows enterprise-grade security practices designed for production FiveM server infrastructure.
 
@@ -119,7 +119,7 @@ Response times may vary depending on severity and complexity.
 
 # 🔐 Security Standards
 
-Pigeon Studios resources are developed using:
+Pigeon Studios Group resources are developed using:
 
 - server-side validation
 - framework abstraction
@@ -224,7 +224,7 @@ Recommended deployment standards:
 
 # 📢 Disclosure Policy
 
-Pigeon Studios reserves the right to:
+Pigeon Studios Group reserves the right to:
 
 - patch vulnerabilities privately
 - delay disclosure until remediation
@@ -261,6 +261,6 @@ For non-security support:
 
 # 🏢 Maintained By
 
-Pigeon Studios
+Pigeon Studios Group
 
 Built for secure, scalable, and production-grade FiveM infrastructure.

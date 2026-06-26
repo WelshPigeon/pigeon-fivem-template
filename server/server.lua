@@ -69,7 +69,7 @@ local function Notify(source, message, notificationType)
 
     if Config.Notifications.System == 'ox' then
         TriggerClientEvent('ox_lib:notify', source, {
-            title = 'Pigeon Studios',
+            title = Config.Resource.Brand or 'Pigeon Studios Group',
             description = message,
             type = notificationType,
             position = 'center-right'

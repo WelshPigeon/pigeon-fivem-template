@@ -31,7 +31,7 @@ local function Notify(message, notificationType)
 
     if Config.Notifications.System == 'ox' and lib then
         lib.notify({
-            title = 'Pigeon Studios',
+            title = Config.Resource.Brand or 'Pigeon Studios Group',
             description = message,
             type = notificationType,
             position = 'center-right'

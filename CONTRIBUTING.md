@@ -1,6 +1,6 @@
 # Contributing Guidelines
 
-Thank you for contributing to this Pigeon Studios repository.
+Thank you for contributing to this Pigeon Studios Group repository.
 
 This project is maintained as enterprise-grade FiveM infrastructure and follows strict production development standards.
 
@@ -383,7 +383,7 @@ Development environments should never directly impact live production systems.
 
 # 👥 Ownership
 
-This repository is maintained by Pigeon Studios.
+This repository is maintained by Pigeon Studios Group.
 
 All contributions must follow:
 - repository standards,

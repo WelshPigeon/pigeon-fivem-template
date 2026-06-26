@@ -3,7 +3,7 @@ PigeonShared = {}
 -- Resource Information
 PigeonShared.Resource = {
     Name = GetCurrentResourceName(),
-    Author = 'Pigeon Studios'
+    Author = 'Pigeon Studios Group'
 }
 
 -- Framework Detection

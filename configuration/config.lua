@@ -3,7 +3,7 @@ Config = {}
 -- Resource Information
 Config.Resource = {
     Name = 'pigeon-fivem-template',
-    Version = '1.0.0',
+    Brand = 'Pigeon Studios Group',
     Debug = false
 }
 
@@ -97,9 +97,9 @@ function Pigeon.Debug(message)
 end
 
 function Pigeon.Info(message)
-    print(('[INFO] %s'):format(message))
+    print(('[INFO] [%s] %s'):format(Config.Resource.Name, message))
 end
 
 function Pigeon.Error(message)
-    print(('[ERROR] %s'):format(message))
+    print(('[ERROR] [%s] %s'):format(Config.Resource.Name, message))
 end

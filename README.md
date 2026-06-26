@@ -1,479 +1,188 @@
-<div align="center">
-  <img src="web/img/banner.png" alt="Pigeon Studios Resource Banner" width="2000" />
-</div>
+# RESOURCE_NAME
 
-<div align="center">
-  <h1>RESOURCE_NAME</h1>
-</div>
+Enterprise-grade FiveM resource template by Pigeon Studios Group.
 
-<div align="center">
+This repository is designed as the starting point for PSG FiveM resources. It includes a production-ready layout, shared configuration, client/server entry points, localisation folders, GitHub issue templates, CI validation, and the PSG GitHub Releases version checker.
 
-[![Version](https://img.shields.io/github/v/release/WelshPigeon/RESOURCE_NAME?style=for-the-badge&color=7A3FFF)](https://github.com/WelshPigeon/RESOURCE_NAME/releases)
-[![License](https://img.shields.io/badge/License-Pigeon%20Studios%20Proprietary-7A3FFF?style=for-the-badge)](https://github.com/WelshPigeon/RESOURCE_NAME/blob/main/LICENSE)
-[![Last Commit](https://img.shields.io/github/last-commit/WelshPigeon/RESOURCE_NAME?style=for-the-badge&color=7A3FFF)](https://github.com/WelshPigeon/RESOURCE_NAME/commits/main)
-[![Repo Size](https://img.shields.io/github/repo-size/WelshPigeon/RESOURCE_NAME?style=for-the-badge&color=7A3FFF)](https://github.com/WelshPigeon/RESOURCE_NAME)
-
-![Lua](https://img.shields.io/badge/Lua-5.4-black?style=for-the-badge&logo=lua&logoColor=white)
-![FiveM](https://img.shields.io/badge/FiveM-Cerulean-black?style=for-the-badge)
-
-</div>
-
-<div align="center">
-  <strong>
-    Enterprise-grade FiveM resource developed by Pigeon Studios.
-  </strong>
-  <br>
-  Built for scalable infrastructure, maintainable architecture,
-  and production-ready server environments.
-</div>
-
----
-
-> ⚠️ This repository is actively maintained and production deployed.
-
----
-
-# 📚 Table of Contents
-
-- Repository Information
-- Overview
-- Compatibility
-- Architecture
-- Features
-- Quick Start
-- Installation
-- Configuration
-- Dependencies
-- Repository Structure
-- Versioning
-- Security
-- Production Recommendations
-- Troubleshooting
-- Support
-- Licensing
-- Credits
-
----
-
-# 🔍 Repository Information
-
-| Field | Value |
-|---|---|
-| Repository Name | RESOURCE_NAME |
-| Language | Lua |
-| Game | FiveM |
-| Framework Support | QBCore / Qbox / ESX / Standalone |
-| Architecture | Config-Driven |
-| Database | oxmysql |
-| UI Support | NUI Ready |
-| Localisation | Multi-Language Ready |
-| Resource Type | TEMPLATE_RESOURCE_TYPE |
-| Author | Pigeon Studios |
-| Status | Production Stable |
-
----
-
-# 🧩 Overview
-
-RESOURCE_NAME is an enterprise-grade FiveM resource built for scalable server infrastructure and long-term maintainability.
-
-The resource follows modern production architecture standards including:
-
-- centralized configuration
-- framework abstraction
-- reusable utility systems
-- production-safe validation
-- configurable integrations
-- scalable repository workflows
-- semantic versioning
-- localisation support
-- CI validation workflows
-- enterprise GitHub standards
-
-Designed specifically for modern FiveM development environments, the resource prioritizes maintainability, performance, scalability, and infrastructure consistency.
-
----
-
-# 🔌 Compatibility
-
-| System | Supported |
-|---|---|
-| QBCore | ✅ |
-| Qbox | ✅ |
-| ESX | ✅ |
-| Standalone | ✅ |
-| ox_lib | ✅ |
-| oxmysql | ✅ |
-| ox_inventory | ✅ |
-| ox_target | ✅ |
-| OneSync | ✅ |
-
----
-
-# 🏗 Architecture
-
-This resource follows:
-
-- config-driven architecture
-- centralized validation systems
-- framework abstraction
-- reusable shared utilities
-- enterprise repository standards
-- production-safe event handling
-- scalable localisation structure
-- semantic versioning workflows
-- CI validation pipelines
-
----
-
-# 🚀 Core Features
-
-## Framework Features
-
-| Feature | Included |
-|---|---|
-| Framework Abstraction | ✅ |
-| Shared Utility Architecture | ✅ |
-| Config-Driven Systems | ✅ |
-| Resource Lifecycle Handling | ✅ |
-| Export Support | ✅ |
-| Localisation Support | ✅ |
-
----
-
-## Security Features
-
-| Feature | Included |
-|---|---|
-| Input Validation | ✅ |
-| Source Validation | ✅ |
-| Event Validation | ✅ |
-| Anti-Spam Ready | ✅ |
-| Debug Protection | ✅ |
-| Secure Logging Architecture | ✅ |
-
----
-
-## Production Features
-
-| Feature | Included |
-|---|---|
-| CI Workflow Integration | ✅ |
-| Semantic Versioning | ✅ |
-| Version Checker | ✅ |
-| Repository Standards | ✅ |
-| Enterprise GitHub Structure | ✅ |
-| Multi-Language Support | ✅ |
-
----
-
-# ⚡ Quick Start
-
-## Clone Repository
+## Quick Start
 
 ```bash
 git clone https://github.com/WelshPigeon/RESOURCE_NAME
 ```
 
----
-
-## Move Resource
+Move the resource into your FiveM server:
 
 ```text
 resources/[standalone]/RESOURCE_NAME
 ```
 
----
-
-## Ensure Dependencies
+Ensure dependencies before the resource:
 
 ```cfg
 ensure ox_lib
 ensure oxmysql
-
 ensure RESOURCE_NAME
 ```
 
----
+## Template Setup
 
-# ⚙️ Installation
+When creating a new resource from this template, update:
 
-## 1) Download Repository
+```lua
+name 'RESOURCE_NAME'
+description 'RESOURCE_NAME by Pigeon Studios Group.'
+version '1.0.0'
+repository 'https://github.com/WelshPigeon/RESOURCE_NAME'
 
-Clone or download the repository:
-
-```bash
-git clone https://github.com/WelshPigeon/RESOURCE_NAME
+psg_name 'RESOURCE_NAME'
+provide 'RESOURCE_NAME'
 ```
 
----
+Also update resource event names in `client/client.lua` and `server/server.lua` if they still contain `pigeon-fivem-template`.
 
-## 2) Move Resource
+## Versioning
 
-Move the resource into your server resources directory:
+The source of truth for the installed resource version is `fxmanifest.lua`:
+
+```lua
+version '1.0.0'
+```
+
+Remote version checks use GitHub Releases:
+
+- latest version: latest release tag, for example `v1.0.1`
+- changelog: latest release body
+- repository: `repository` metadata in `fxmanifest.lua`
+
+The old loose `version` and `changelog.txt` files are no longer required.
+
+## Release Flow
+
+1. Update `version` in `fxmanifest.lua`.
+2. Commit and push the resource.
+3. Create a GitHub Release with a matching tag, for example `v1.0.1`.
+4. Put the changelog in the GitHub Release body.
+5. Restart the resource/server and the checker will compare installed vs latest.
+
+## Repository Structure
 
 ```text
-resources/[standalone]/RESOURCE_NAME
+.
+|-- .github/
+|   |-- ISSUE_TEMPLATE/
+|   |-- workflows/
+|   `-- pull_request_template.md
+|-- client/
+|   `-- client.lua
+|-- configuration/
+|   `-- config.lua
+|-- locales/
+|   `-- en.json
+|-- server/
+|   |-- server.lua
+|   `-- version_check.lua
+|-- shared/
+|   `-- shared.lua
+|-- web/
+|   `-- img/
+|-- fxmanifest.lua
+|-- README.md
+|-- CHANGELOG.md
+|-- CONTRIBUTING.md
+|-- LICENSE
+`-- SECURITY.md
 ```
 
----
+## Dependencies
 
-## 3) Ensure Dependencies
+Required by default:
 
-Required dependencies:
+- `ox_lib`
+- `oxmysql`
 
-```cfg
-ensure ox_lib
-ensure oxmysql
-```
+Optional integrations are configured in `configuration/config.lua`:
 
-Optional dependencies:
+- QBCore
+- Qbox
+- ESX
+- Standalone
+- ox_inventory
+- ox_target
 
-```cfg
-ensure ox_inventory
-ensure ox_target
-```
+## Configuration
 
----
-
-## 4) Start Resource
-
-```cfg
-ensure RESOURCE_NAME
-```
-
----
-
-## 5) Restart Server
-
-Restart the server or resource after installation.
-
----
-
-# ⚙️ Configuration
-
-Primary configuration file:
+Primary configuration lives in:
 
 ```text
 configuration/config.lua
 ```
 
----
+The template includes sections for:
 
-## Framework Configuration
-
-```lua
-Config.Framework = {
-    Type = 'qbcore'
-}
-```
-
-Supported:
-- qbcore
-- qbox
-- esx
-- standalone
-
----
-
-## Notification Configuration
-
-```lua
-Config.Notifications = {
-    System = 'ox'
-}
-```
-
-Supported:
-- ox
-- qbcore
-- esx
-- custom
-
----
-
-## Debug Configuration
-
-```lua
-Config.Resource = {
-    Debug = false
-}
-```
-
----
+- resource information
+- framework selection
+- notifications
+- target system
+- inventory system
+- locale
+- logging
+- validation
+- performance
+- developer options
+- feature flags
 
 ## Version Checker
 
-```lua
-Config.VersionChecker = {
-    Enabled = true
-}
-```
+`server/version_check.lua` is loaded before `server/server.lua`.
 
----
-
-# 📁 Repository Structure
-
-| Path | Description |
-|---|---|
-| .github/ | GitHub workflows and repository standards |
-| .github/workflows/ | CI validation workflows |
-| .github/ISSUE_TEMPLATE/ | Enterprise issue templates |
-| client/ | Client-side systems |
-| server/ | Server-side systems |
-| shared/ | Shared utilities and abstractions |
-| configuration/ | Resource configuration |
-| locales/ | Multi-language localisation |
-| web/ | NUI frontend files |
-| fxmanifest.lua | FiveM resource manifest |
-| version | Version checker version file |
-| changelog.txt | Version checker changelog |
-| README.md | Repository documentation |
-| CONTRIBUTING.md | Contribution guidelines |
-| SECURITY.md | Security policy |
-| CHANGELOG.md | Version history |
-| LICENSE | Licensing agreement |
-
----
-
-# 📦 Dependencies
-
-## Required
-
-- ox_lib
-- oxmysql
-
----
-
-## Optional
-
-- ox_inventory
-- ox_target
-
----
-
-# 📦 Versioning
-
-This repository follows semantic versioning.
-
-| Version Type | Description |
-|---|---|
-| Major | Breaking changes |
-| Minor | New functionality |
-| Patch | Fixes and optimisations |
-
-Example:
-
-```text
-1.4.2
-│ │ │
-│ │ └── Patch
-│ └──── Minor
-└────── Major
-```
-
----
-
-# 🛡 Security
-
-This resource follows production-grade security standards including:
-
-- server-side validation
-- framework validation
-- secure event handling
-- centralized validation systems
-- configurable debug systems
-- anti-exploit architecture
-- secure repository workflows
-
-Sensitive vulnerabilities should be reported privately.
-
-Refer to `SECURITY.md` for responsible disclosure guidelines.
-
----
-
-# 🚦 Production Recommendations
-
-Recommended deployment practices:
-
-- protected GitHub branches
-- CI validation enabled
-- staging environments
-- semantic release tagging
-- secure webhook management
-- separated development branches
-- production configuration reviews
-- version-controlled deployments
-
-Recommended production configuration:
+It reads:
 
 ```lua
-Config.Resource.Debug = false
+version '1.0.0'
+repository 'WelshPigeon/RESOURCE_NAME'
+psg_name 'RESOURCE_NAME'
+psg_brand 'Pigeon Studios Group'
+psg_website 'https://pigeonstudios.co.uk'
 ```
 
----
+Supported repository formats:
 
-# 🛠 Troubleshooting
+```lua
+repository 'WelshPigeon/RESOURCE_NAME'
+repository 'https://github.com/WelshPigeon/RESOURCE_NAME'
+repository 'https://github.com/WelshPigeon/RESOURCE_NAME.git'
+```
 
-## Resource Does Not Start
+## NUI
 
-Check:
-- dependencies are installed
-- ensure order is correct
-- framework configuration is valid
-- no syntax errors exist
+NUI is optional. The manifest includes only the banner image by default.
 
----
+When a resource needs a web UI, add the files under `web/` and uncomment the NUI block in `fxmanifest.lua`.
 
-## Version Checker Failed
+## CI
 
-Check:
-- internet connectivity
-- GitHub repository exists
-- version file exists
-- changelog file exists
+The GitHub Actions workflow validates:
 
----
+- required files
+- required folders
+- `fxmanifest.lua` version format
+- PSG versioning metadata
+- forbidden secret-like strings
+- leftover placeholders
+- Lua syntax
+- JSON syntax
+- basic manifest fields
 
-## Missing Dependency Errors
+## Security
 
-Ensure required dependencies are started before the resource.
+Do not commit secrets, tokens, webhooks, API keys, or private configuration.
 
----
+Use `SECURITY.md` for vulnerability reporting instructions and keep production credentials outside the repository.
 
-# 🆘 Support
+## License
 
-For:
-- deployment issues,
-- bug reports,
-- configuration assistance,
-- or infrastructure support
+This template is proprietary to Pigeon Studios Group unless a project-specific license says otherwise.
 
-Please:
-- open a GitHub Issue
-- submit a Feature Request
-- review repository documentation
-- contact Pigeon Studios
+## Credits
 
----
-
-# 📄 Licensing & Usage
-
-Copyright © Pigeon Studios
-
-This repository and all associated source code remain the exclusive property of Pigeon Studios.
-
-Redistribution, resale, sublicensing, relicensing, public mirroring, or unauthorised commercial usage without explicit written permission from Pigeon Studios is strictly prohibited.
-
-Licensed deployments are restricted to authorised environments only.
-
-Refer to the `LICENSE` file for full licensing terms.
-
----
-
-# 🤝 Credits
-
-Developed by Pigeon Studios
-
-Built for scalable FiveM infrastructure, enterprise-grade development workflows,
-and long-term production stability.
+Created and maintained by Pigeon Studios Group.
